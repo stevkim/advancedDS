@@ -76,11 +76,29 @@ class DoublyLinkedList {
   }
   // contains
   contains(v) {
-
+    // create a current variable and set its value to the head node
+    var current = this.head;
+    // while current is true
+    while (current) {
+      // check if current.value is equal to v and return true if so
+      if (current.value === v) return true;
+      // set current to current.next
+      current = current.next;
+    }
+    // return false
+    return false;
   }
   // traverse method - takes in cb
   traverse(cb) {
-
+    // create a current variable and set its value to the head node
+    var current = this.head;
+    // while current is true
+    while (current) {
+      // call cb on current
+      cb(current);
+      // set current to current.next
+      current = current.next;
+    }
   }
 
   print() {
@@ -106,6 +124,10 @@ class Node {
   }
 };
 
+function addFive(node) {
+  node.value += 5;
+}
+
 var newList = new DoublyLinkedList();
 newList.addToHead(9);
 newList.addToHead(8);
@@ -116,7 +138,18 @@ newList.addToTail('test');
 var removedFromHead = newList.removeHead();
 var removedFromTail = newList.removeTail();
 
+var containsTest = newList.contains('test'); // we want false
+var contains8 = newList.contains(8); // we want true
+
+newList.print();
+
+newList.traverse(addFive);
+
 newList.print();
 console.log('Removed from Head: ' + removedFromHead);
 console.log('Removed from Tail: ' + removedFromTail);
+
+console.log('Contains "test": ' + containsTest); // should return false
+console.log('Contains 8: ' + contains8); // should return true
+
 newList.printSize();
