@@ -39,11 +39,26 @@ class Tree {
   }
 
   removeFromParent() {
-
+    //create a variable pointing to this
+    var current = this;
+    // filter the parent node's children prop to remove our current node.
+    this.parent.children = this.parent.children.filter(function(node) {
+      return node !== current;
+    });
+    // set the current node's parent prop to null
+    this.parent = null;
   }
 
   traverse(cb) {
-
+    // call cb function for this node
+    cb(this);
+    // if the node has children
+    if (this.children && this.children.length > 0) {
+      // iterate over children and call traverse for each one
+      this.children.forEach(function(node) {
+        node.traverse(cb);
+      });
+    };
   }
 
   print() {
@@ -63,6 +78,10 @@ function getNode(node) {
   return nodeList;
 }
 
+function addFive(node) {
+  node.value += 5;
+}
+
 
 var tree = new Tree(7);
 tree.addChild(5);
@@ -75,7 +94,8 @@ firstChild.addChild(7);
 
 var subChild = firstChild.children[0];
 subChild.addChild(2);
+tree.traverse(addFive);
 
 tree.print();
-
+console.log(tree.children.length);
 console.log(tree.contains(2));
